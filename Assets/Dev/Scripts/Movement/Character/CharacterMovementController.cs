@@ -22,6 +22,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private void Movement()
     {
+        if (!joystick.IsJoystickActive) return;
         float horizontal = joystick.Horizontal();
         float vertical = joystick.Vertical();
 
@@ -32,6 +33,7 @@ public class CharacterMovementController : MonoBehaviour
             move = move.normalized;
         }
         characterController.Move(move * moveSpeed * Time.deltaTime);
+        transform.forward = move;
         if (!characterController.isGrounded)
         {
             _velocity.y += gravity * Time.deltaTime;

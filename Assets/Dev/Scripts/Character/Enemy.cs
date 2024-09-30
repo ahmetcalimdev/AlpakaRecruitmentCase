@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceCheckable
+public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceCheckable, IPoolableObject<Enemy>
 {
     public EnemyStateEnum State;
     public float MaxHealth { get; set; } = 100f;
@@ -15,6 +13,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public NavMeshAgent NavMeshAgent { get; set; }
     public bool IsAggroed { get; set; }
     public bool IsWithinAttackingDistance { get; set; }
+    public IObjectPool<Enemy> PoolParent { get; set; }
 
     public float RandomMovementRange = 5f;
     
@@ -27,7 +26,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
         NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         CurrentHealth = MaxHealth;
         StateMachine.Initialize(StateIdle);
