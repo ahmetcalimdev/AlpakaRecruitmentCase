@@ -9,6 +9,7 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector2 inputVector;
 
     public RectTransform canvasRect;
+    public bool IsJoystickActive => joystickBackground.gameObject.activeSelf;
 
     private void Start()
     {
@@ -17,7 +18,6 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("On Pointer Down!");
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, eventData.position, eventData.pressEventCamera, out localPoint);
         joystickBackground.rectTransform.anchoredPosition = localPoint;
@@ -42,6 +42,7 @@ public class JoystickController : MonoBehaviour, IPointerDownHandler, IDragHandl
         inputVector = Vector2.zero;
         joystickHandle.rectTransform.anchoredPosition = Vector2.zero;
         joystickBackground.gameObject.SetActive(false);
+
     }
 
     public float Horizontal()
