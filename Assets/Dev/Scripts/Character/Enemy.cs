@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceCheckable
 {
+    public EnemyStateEnum State;
     public float MaxHealth { get; set; } = 100f;
     public float CurrentHealth { get; set; }
     public EnemyStateMachine StateMachine { get; set; }
@@ -53,6 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
 
     public void Move(Vector3 destination)
     {
+        NavMeshAgent.isStopped = false;
         NavMeshAgent.SetDestination(destination);
     }
 
@@ -65,4 +67,16 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     {
         IsWithinAttackingDistance = isWithinAttackingDistance;
     }
+
+    public void Stop()
+    {
+        NavMeshAgent.isStopped = true;
+    }
+
+}
+public enum EnemyStateEnum
+{
+    IDLE,
+    CHASE,
+    ATTACK
 }

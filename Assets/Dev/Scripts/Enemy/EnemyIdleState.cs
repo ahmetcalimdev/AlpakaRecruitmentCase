@@ -12,11 +12,13 @@ public class EnemyIdleState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        enemy.State = EnemyStateEnum.IDLE;
         SetRandomPatrol();
     }
 
     private void SetRandomPatrol()
     {
+        Debug.Log("Set Random Patrol");
         _targetPos = GetRandomPointOnNavmesh();
         enemy.Move(_targetPos);
     }
