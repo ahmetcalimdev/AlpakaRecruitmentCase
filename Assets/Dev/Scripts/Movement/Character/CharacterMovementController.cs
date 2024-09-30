@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    private readonly float gravity = -9.81f;
     public JoystickController joystick;
     private CharacterController characterController;
     public float moveSpeed = 5f;
-    private readonly float gravity = -9.81f;
-    private Vector3 velocity;
+    [HideInInspector]
+    private Vector3 _velocity;
+    
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -26,14 +26,15 @@ public class CharacterMovementController : MonoBehaviour
             move = move.normalized;
         }
         characterController.Move(move * moveSpeed * Time.deltaTime);
+        transform.forward = move;
         if (!characterController.isGrounded)
         {
-            velocity.y += gravity * Time.deltaTime;
+            _velocity.y += gravity * Time.deltaTime;
         }
         else
         {
-            velocity.y = 0f;
+            _velocity.y = 0f;
         }
-        characterController.Move(velocity * Time.deltaTime);
+        characterController.Move(_velocity * Time.deltaTime);
     }
 }
