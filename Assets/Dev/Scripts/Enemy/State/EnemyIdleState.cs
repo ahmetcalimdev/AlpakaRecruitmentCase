@@ -53,18 +53,7 @@ public class EnemyIdleState : EnemyState
     }
     private Vector3 GetRandomPointOnNavmesh() 
     {
-        return RandomNavmeshLocation(5f);
+        return NavMeshRandomPositionGenerator.RandomNavmeshLocation(enemy.transform.position, 5f);
     }
-    private Vector3 RandomNavmeshLocation(float radius)
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += enemy.transform.position;
-        NavMeshHit hit;
-        Vector3 finalPosition = Vector3.zero;
-        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
-        {
-            finalPosition = hit.position;
-        }
-        return finalPosition;
-    }
+    
 }
