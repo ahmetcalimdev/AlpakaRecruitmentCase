@@ -130,10 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ed132539f6bd641aad4321ffa6cc1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPerSecond: 2
+  bulletPerSecond: 5
   shootingRange: 0
   shootingSpeed: 1000
-  damagePerBullet: 50
+  damagePerBullet: 100
   pool: {fileID: 4509243744924169874}
   bulletSpawnTransform: {fileID: 738271734}
   _muzzleEffect: {fileID: 1277016738}

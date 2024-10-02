@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceCheckable, IPoolableObject<Enemy>
 {
     public EnemyStateEnum State;
-    public float MaxHealth { get; set; } = 100f;
+    public float MaxHealth { get; set; } = 500f;
     public float CurrentHealth { get; set; }
     public EnemyStateMachine StateMachine { get; set; }
     public EnemyIdleState StateIdle { get; set; }
