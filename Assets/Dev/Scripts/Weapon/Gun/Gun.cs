@@ -11,6 +11,8 @@ public class Gun : MonoBehaviour
     private BulletPool pool;
     [SerializeField]
     private Transform bulletSpawnTransform;
+    [SerializeField]
+    private ParticleSystem _muzzleEffect;
 
     private bool isShooting = false;
     private float timeSinceLastShot = 0f;
@@ -49,6 +51,7 @@ public class Gun : MonoBehaviour
     private void Shoot()
     {
         Bullet bullet = pool.Dequeue();
+        _muzzleEffect.Play();
         bullet.transform.position = bulletSpawnTransform.position;
         bullet.Init(damagePerBullet);
         bullet.ApplyForce(-bulletSpawnTransform.up, shootingSpeed);
