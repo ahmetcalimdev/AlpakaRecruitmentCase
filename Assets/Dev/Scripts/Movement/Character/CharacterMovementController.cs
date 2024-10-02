@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    private Player _player;
     private readonly float gravity = -9.81f;
     public JoystickController joystick;
     private CharacterController characterController;
@@ -11,6 +12,7 @@ public class CharacterMovementController : MonoBehaviour
     
     private void Start()
     {
+        _player = GetComponent<Player>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -22,6 +24,10 @@ public class CharacterMovementController : MonoBehaviour
 
     private void Movement()
     {
+        if(_player.ClosestEnemy)
+            transform.forward = _player.ClosestEnemy.transform.position - transform.position;
+
+
         if (!joystick.IsJoystickActive) return;
         float horizontal = joystick.Horizontal();
         float vertical = joystick.Vertical();
@@ -33,7 +39,7 @@ public class CharacterMovementController : MonoBehaviour
             move = move.normalized;
         }
         characterController.Move(move * moveSpeed * Time.deltaTime);
-        transform.forward = move;
+       
         if (!characterController.isGrounded)
         {
             _velocity.y += gravity * Time.deltaTime;

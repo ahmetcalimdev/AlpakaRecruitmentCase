@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public bool IsAggroed { get; set; }
     public bool IsWithinAttackingDistance { get; set; }
     public IObjectPool<Enemy> PoolParent { get; set; }
+    public bool IsDead { get; set; }
 
     public float RandomMovementRange = 5f;
     
@@ -28,7 +29,10 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
 
     private void OnEnable()
     {
+        IsDead = false;
         CurrentHealth = MaxHealth;
+        SetAggroStatus(false);
+        SetAttackingDistance(false);
         StateMachine.Initialize(StateIdle);
     }
     private void Update()
@@ -41,7 +45,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     }
 
     public void Damage(float damageAmount)
-    {
+    {   
+        if (IsDead) return;
         CurrentHealth -= damageAmount;
         if (CurrentHealth <= 0)
             Die();
@@ -49,6 +54,9 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
 
     public void Die()
     {
+        IsDead = true;
+        GameEvents.TriggerOnEnemyDied(this);
+        PoolParent.Enqueue(this);
     }
 
     public void Move(Vector3 destination)

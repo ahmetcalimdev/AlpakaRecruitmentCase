@@ -18,7 +18,6 @@ public class EnemyIdleState : EnemyState
 
     private void SetRandomPatrol()
     {
-        Debug.Log("Set Random Patrol");
         _targetPos = GetRandomPointOnNavmesh();
         enemy.Move(_targetPos);
     }
