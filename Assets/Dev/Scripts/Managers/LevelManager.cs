@@ -88,6 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         if (enemySpawner != null && CurrentLevel != null)
         {
+            GameEvents.TriggerOnLevelStarted(currentLevelIndex, CurrentLevel.LevelConfig.LevelDuration);
             enemySpawner.StartSpawning(CurrentLevel.LevelConfig.WaveConfig);
         }
     }
