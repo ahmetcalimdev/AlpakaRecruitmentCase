@@ -17,6 +17,10 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public bool IsDead { get; set; }
 
     public float RandomMovementRange = 5f;
+    [SerializeField]
+    private ParticleSystem _hitParticle;
+    [SerializeField]
+    private ParticleSystem _deadParticle;
     
     private void Awake()
     {
@@ -30,6 +34,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     private void OnEnable()
     {
         IsDead = false;
+        _hitParticle.transform.parent = null;
+        _deadParticle.transform.parent = null;
         CurrentHealth = MaxHealth;
         SetAggroStatus(false);
         SetAttackingDistance(false);
@@ -47,6 +53,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public void Damage(float damageAmount)
     {   
         if (IsDead) return;
+        _hitParticle.transform.position = transform.position;
+        _hitParticle.Play();
         CurrentHealth -= damageAmount;
         if (CurrentHealth <= 0)
             Die();
@@ -55,6 +63,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public void Die()
     {
         IsDead = true;
+        _deadParticle.transform.position = transform.position;
+        _deadParticle.Play();
         GameEvents.TriggerOnEnemyDied(this);
         PoolParent.Enqueue(this);
     }

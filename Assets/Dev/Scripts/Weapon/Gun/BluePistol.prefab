@@ -130,9 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ed132539f6bd641aad4321ffa6cc1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPerSecond: 1
+  bulletPerSecond: 2
   shootingRange: 0
-  shootingSpeed: 50
+  shootingSpeed: 1000
   damagePerBullet: 50
   pool: {fileID: 4509243744924169874}
   bulletSpawnTransform: {fileID: 738271734}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563694918f661824fbe6603a61a284ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObjectPrefab: {fileID: 5274188865178089078, guid: ee8bd344597b1bf43a5402f907096206,
+  pooledObjectPrefab: {fileID: 3347766499078004808, guid: e40ba5c8eadaa3049a4fde5aeac7c987,
     type: 3}
   startSize: 10
   maxSize: 100
