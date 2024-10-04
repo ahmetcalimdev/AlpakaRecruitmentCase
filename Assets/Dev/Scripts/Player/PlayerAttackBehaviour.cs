@@ -15,6 +15,7 @@ public class PlayerAttackBehaviour : MonoBehaviour
     }
     public void StartAttacking() 
     {
+        if (!GameManager.Instance.IsGameRunning) return;
         if (!isAttacking)
         {
             isAttacking = true;

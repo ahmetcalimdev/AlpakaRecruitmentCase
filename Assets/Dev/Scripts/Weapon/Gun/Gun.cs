@@ -27,13 +27,9 @@ public class Gun : MonoBehaviour
     {
         UpdateGunStats();
     }
-    private void OnEnable()
-    {
-
-        UpdateGunStats();
-    }
     private void Update()
     {
+        if (!GameManager.Instance.IsGameRunning) return;
         if (isShooting)
         {
             timeSinceLastShot += Time.deltaTime;

@@ -13,6 +13,7 @@ public class EnemyAggroCheck : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!GameManager.Instance.IsGameRunning) return;
         if (other.gameObject == PlayerTarget)
         {
             _enemy.SetAggroStatus(true);

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
 {
-    public float MaxHealth { get; set; }
+    public float MaxHealth { get; set; } = 1000f;
     public float CurrentHealth { get; set; }
     public float attackDamage { get; set; } = 5f;
     public bool IsDead { get; set; }
@@ -15,23 +15,31 @@ public class Player : MonoBehaviour, IDamageable
     public Enemy ClosestEnemy { get; set; }
     private void Start()
     {
+
         attackBehaviour = GetComponent<PlayerAttackBehaviour>();
         CurrentHealth = MaxHealth;
+        GameManager.Instance.IsGameRunning = true;  
     }
     private void OnEnable()
     {
         GameEvents.OnEnemyDied += OnEnemyDied;
+        GameEvents.OnEnemyAttack += OnEnemyAttack;
     }
+
+    private void OnEnemyAttack(float dmg)
+    {   
+        Damage(dmg);
+    }
+
     private void OnDisable()
     {
         GameEvents.OnEnemyDied -= OnEnemyDied;
+        GameEvents.OnEnemyAttack -= OnEnemyAttack;
     }
     private void OnEnemyDied(Enemy enemy)
     {
         if (targets.Count == 0) return;
         ClosestEnemy = targets.OrderBy(t => Vector3.Distance(t.transform.position, transform.position)).First();
-
-        Debug.Log("Update closest enemy");
     }
 
     public void Damage(float damageAmount)
@@ -43,12 +51,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Die()
     {
-
-    }
-
-    public void Attack()
-    {
-
+        GameEvents.TriggerOnPlayerDied();
     }
     
     public void SetTarget(List<Enemy> enemies)
@@ -61,7 +64,11 @@ public class Player : MonoBehaviour, IDamageable
             {
                 item.EnableTargetDisplay(false);
             }
-            ClosestEnemy = targets.OrderBy(t => Vector3.Distance(t.transform.position, transform.position)).First();
+            Enemy[] aliveEnemies = targets.Where(t=>!t.IsDead).ToArray();
+            if (aliveEnemies.Length == 0)
+                return;
+
+            ClosestEnemy = aliveEnemies.OrderBy(t => Vector3.Distance(t.transform.position, transform.position)).First();
             ClosestEnemy.EnableTargetDisplay(true);
         }
         else

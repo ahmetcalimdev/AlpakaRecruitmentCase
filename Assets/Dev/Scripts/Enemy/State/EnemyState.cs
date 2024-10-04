@@ -13,8 +13,6 @@ public class EnemyState : MonoBehaviour
     }
     public virtual void Enter() { }
     public virtual void Exit() { }
-    public virtual void FrameUpdate() { }
-    public virtual void PhysicsUpdate() { }
-    public virtual void AnimationTrigger() { }
+    public virtual void FrameUpdate(){}
 
 }

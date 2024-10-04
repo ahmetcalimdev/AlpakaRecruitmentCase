@@ -11,7 +11,7 @@ public class PlayerAttackDistanceCheck : MonoBehaviour
     private float rangeMultiplier = 1.2f;
 
    
-    private void OnEnable()
+    private void Start()
     {
         attackRangeUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.GunAttackRange);
         transform.localScale = new Vector3(GetCurrentAttackRange(), transform.localScale.y, GetCurrentAttackRange());

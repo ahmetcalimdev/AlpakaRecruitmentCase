@@ -42,14 +42,6 @@ public class EnemyIdleState : EnemyState
             SetRandomPatrol();
         }
     }
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
-    }
     private Vector3 GetRandomPointOnNavmesh() 
     {
         return NavMeshRandomPositionGenerator.RandomNavmeshLocation(enemy.transform.position, 5f);

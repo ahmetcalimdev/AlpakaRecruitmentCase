@@ -49,7 +49,15 @@ public class UpgradeButton : MonoBehaviour
         config.isActive = config.upgradeLevel < config.upgradeMaxLevel;
         _icon.sprite = config.Icon;
         _nameTxt.text = config.upgradeName;
-        _levelTxt.text = "Lv." + config.upgradeLevel;
+        if (!config.isActive)
+        {
+            _levelTxt.text = "MAX";
+        }
+        else
+        {
+            _levelTxt.text = "Lv." + config.upgradeLevel;
+        }
+        
     }
     public void Highlight(bool enabled) 
     {

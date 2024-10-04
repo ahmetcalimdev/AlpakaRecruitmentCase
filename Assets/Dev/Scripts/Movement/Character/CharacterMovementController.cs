@@ -18,6 +18,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.IsGameRunning) return;
         if (!joystick.IsJoystickActive) return;
         Movement();
     }

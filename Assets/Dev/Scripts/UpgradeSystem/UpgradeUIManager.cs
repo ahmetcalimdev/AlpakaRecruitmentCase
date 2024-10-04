@@ -1,12 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UpgradeUIManager : MonoBehaviour
 {
 
     [SerializeField] private List<UpgradeButton> buttons = new List<UpgradeButton>();
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button upgradeButton;
+    [SerializeField] private TextMeshProUGUI playerMoneyTxt;
+    private void OnEnable()
+    {
+        UpdateUIAfterUpgrade();
+        GameEvents.OnUpgrade += OnUpgrade;
+        continueButton.onClick.AddListener(()=> SceneManager.LoadScene(0));
+    }
+
+    private void OnUpgrade(UpgradeConfig config, int arg2)
+    {
+        UpdateUIAfterUpgrade();
+    }
+
+    private void OnDisable()
+    {
+        continueButton.onClick.RemoveAllListeners();
+    }
+    private void UpdateUIAfterUpgrade() 
+    {
+        playerMoneyTxt.text = GameManager.Instance.playerConfig.playerMoney.ToString();
+        upgradeButton.interactable = GameManager.Instance.playerConfig.playerMoney > UpgradeManager.Instance.generalUpgradeConfig.GetCurrentCost();
+    }
     private void ShuffleList<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)

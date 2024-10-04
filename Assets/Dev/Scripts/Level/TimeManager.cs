@@ -17,6 +17,7 @@ public class TimeManager : MonoBehaviour
 
     public void StartTimer(int levelIndex, float duration)
     {
+        GameManager.Instance.IsGameRunning = true;
         StartTime(duration);
     }
 
@@ -29,7 +30,7 @@ public class TimeManager : MonoBehaviour
 
     private IEnumerator TimerCoroutine()
     {
-        while (_remainingTime > 0 && _isCounting)
+        while (_remainingTime > 0 && _isCounting && GameManager.Instance.IsGameRunning)
         {
             yield return new WaitForSeconds(1f);
             _remainingTime--;
@@ -38,6 +39,7 @@ public class TimeManager : MonoBehaviour
             if (_remainingTime <= 0)
             {
                 _isCounting = false;
+                GameEvents.TriggerOnTimeFinished();
             }
         }
     }

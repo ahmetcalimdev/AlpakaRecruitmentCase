@@ -1,5 +1,11 @@
+using System.Collections;
+using UnityEngine;
+
 public class EnemyAttackState : EnemyState
 {
+    private float nextActionTime = 0.0f;
+    private float period = 3.0f;
+
     public EnemyAttackState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
@@ -26,13 +32,12 @@ public class EnemyAttackState : EnemyState
                 enemy.StateMachine.ChangeState(enemy.StateIdle);
             }
         }
-    }
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
+        if (Time.timeSinceLevelLoad > nextActionTime)
+        {
+            nextActionTime += period;
+            enemy.Attack();
+        }
+     
+
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager Instance { get; private set; }
 
     [Header("Level Configuration")]
     public List<Level> levels = new List<Level>();
@@ -14,19 +13,6 @@ public class LevelManager : MonoBehaviour
     [Header("Spawner Configuration")]
     [SerializeField] private EnemySpawner enemySpawner;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            LoadLevelProgress();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     private void Start()
     {
         if (CurrentLevel == null && levels.Count > 0)

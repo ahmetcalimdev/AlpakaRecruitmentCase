@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public bool IsGameRunning { get; set; }
     public PlayerConfig playerConfig;
 
     private void Awake()
@@ -22,6 +23,13 @@ public class GameManager : MonoBehaviour
     {
         GameEvents.OnUpgrade += OnUpgrade;
         GameEvents.OnCoinEarned += OnCoinEarned;
+        GameEvents.OnPlayerDied += OnPlayerDied;
+        GameEvents.OnTimeFinished += OnPlayerDied;
+    }
+
+    private void OnPlayerDied()
+    {
+        IsGameRunning = false;
     }
 
     private void OnCoinEarned(Coin coin)
@@ -33,6 +41,8 @@ public class GameManager : MonoBehaviour
     {
         GameEvents.OnUpgrade -= OnUpgrade;
         GameEvents.OnCoinEarned -= OnCoinEarned;
+        GameEvents.OnPlayerDied -= OnPlayerDied;
+        GameEvents.OnTimeFinished -= OnPlayerDied;
     }
 
     private void OnUpgrade(UpgradeConfig config, int arg2)

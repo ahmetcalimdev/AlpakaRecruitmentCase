@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,9 +25,11 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     private ParticleSystem _deadParticle;
     [SerializeField]
     private GameObject _targetDisplay;
-    
+    private EnemyAnimationHandler _animationHandler;
+    private float _damage = 20f;
     private void Awake()
     {
+        _animationHandler = GetComponent<EnemyAnimationHandler>();
         StateMachine = new EnemyStateMachine();
         StateIdle = new EnemyIdleState(this, StateMachine);
         ChaseState = new EnemyChaseState(this, StateMachine);
@@ -43,19 +47,27 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
         SetAttackingDistance(false);
         EnableTargetDisplay(false);
         StateMachine.Initialize(StateIdle);
+        GameEvents.OnPlayerDied += OnPlayerDied;
     }
-    private void Update()
+    private void OnDisable()
     {
-        StateMachine.CurrentEnemyState.FrameUpdate();
-    }
-    private void FixedUpdate()
-    {
-        StateMachine.CurrentEnemyState.PhysicsUpdate();
+        GameEvents.OnPlayerDied -= OnPlayerDied;
     }
 
+    private void OnPlayerDied()
+    {
+        Stop();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!GameManager.Instance.IsGameRunning) return;
+        StateMachine.CurrentEnemyState.FrameUpdate();
+    }
     public void Damage(float damageAmount)
     {   
         if (IsDead) return;
+        _animationHandler.TakeDamage();
         _hitParticle.transform.position = transform.position;
         _hitParticle.Play();
         CurrentHealth -= damageAmount;
@@ -65,7 +77,15 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
 
     public void Die()
     {
+        Stop();
         IsDead = true;
+        _targetDisplay.SetActive(false);
+        _animationHandler.Die();
+        StartCoroutine(DoDeadActions());
+    }
+    IEnumerator DoDeadActions() 
+    {
+        yield return new WaitForSeconds(2f);
         _deadParticle.transform.position = transform.position;
         _deadParticle.Play();
         GameEvents.TriggerOnEnemyDied(this);
@@ -95,6 +115,11 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public void EnableTargetDisplay(bool enabled) 
     {
         _targetDisplay.SetActive(enabled);
+    }
+    public void Attack() 
+    {
+        GameEvents.TriggerOnEnemyAttack(_damage);
+        _animationHandler.Attack();
     }
 
 }

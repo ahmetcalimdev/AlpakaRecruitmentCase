@@ -17,6 +17,10 @@ public class GeneralUpgradeButton : MonoBehaviour
         btn.onClick.AddListener(upgradeUIManager.UpgradeRandom);
 
     }
+    private void Start()
+    {
+        UpdatePriceTxt();
+    }
     private void OnDisable()
     {
         GameEvents.OnUpgrade -= OnUpgrade;

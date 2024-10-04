@@ -23,6 +23,7 @@ public class EnemyChaseState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
         enemy.Move(_playerTransform.position);
         if (enemy.IsWithinAttackingDistance)
         {
@@ -32,13 +33,5 @@ public class EnemyChaseState : EnemyState
         {
             enemy.StateMachine.ChangeState(enemy.StateIdle);
         }
-    }
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
     }
 }
