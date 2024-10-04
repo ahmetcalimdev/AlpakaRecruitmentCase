@@ -21,7 +21,7 @@ public class UpgradeManager : MonoBehaviour
     }
     public void Upgrade(UpgradeButton upgradeButton) 
     {
-        GameEvents.TriggerOnUpgrade(upgradeButton.config);
+        GameEvents.TriggerOnUpgrade(upgradeButton.config, generalUpgradeConfig.GetCurrentCost());
     }
     public int GetUpgradeLevel(UpgradeType upgradeType)
     {

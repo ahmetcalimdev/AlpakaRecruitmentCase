@@ -6,7 +6,9 @@ public static class GameEvents
     public static event Action<int, float> OnLevelStarted;
     public static event Action<Enemy> OnEnemyDied;
     public static event Action<float> OnTimeTick;
-    public static event Action<UpgradeConfig> OnUpgrade;
+    public static event Action<UpgradeConfig, int> OnUpgrade;
+    public static event Action<int> OnMoneyEarned;
+    public static event Action<Coin> OnCoinEarned;
     public static void TriggerOnLevelStarted(int level, float duration) 
     {
         OnLevelStarted?.Invoke(level, duration);
@@ -19,8 +21,16 @@ public static class GameEvents
     {
         OnTimeTick?.Invoke(time);
     }
-    public static void TriggerOnUpgrade(UpgradeConfig upgradeConfig) 
+    public static void TriggerOnUpgrade(UpgradeConfig upgradeConfig, int cost) 
     {
-        OnUpgrade?.Invoke(upgradeConfig);
+        OnUpgrade?.Invoke(upgradeConfig, cost);
+    }
+    public static void TriggerMoneyEarned(int moneyEarned) 
+    {
+        OnMoneyEarned?.Invoke(moneyEarned);
+    }
+    public static void TriggerCoinEarned(Coin coin) 
+    {
+        OnCoinEarned?.Invoke(coin);
     }
 }

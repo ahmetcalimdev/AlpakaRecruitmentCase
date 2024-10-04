@@ -29,7 +29,7 @@ public class UpgradeButton : MonoBehaviour
         GameEvents.OnUpgrade -= OnUpgrade;
 
     }
-    private void OnUpgrade(UpgradeConfig upgradedConfig)
+    private void OnUpgrade(UpgradeConfig upgradedConfig, int cost)
     {
         if (upgradedConfig == config)
         {

@@ -1,12 +1,10 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public PlayerConfig playerConfig;
-    public int baseUpgradeCost = 100;
-    public float costMultiplier = 1.1f;
-    private int currentUpgradeCost;
 
     private void Awake()
     {
@@ -20,47 +18,34 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
+    private void OnEnable()
     {
-        LoadPlayerData();
-        currentUpgradeCost = baseUpgradeCost;
+        GameEvents.OnUpgrade += OnUpgrade;
+        GameEvents.OnCoinEarned += OnCoinEarned;
     }
 
-    public void BuyUpgrade(UpgradeConfig upgrade)
+    private void OnCoinEarned(Coin coin)
     {
-        if (playerConfig.playerMoney >= currentUpgradeCost)
-        {
-            playerConfig.playerMoney -= currentUpgradeCost;
-            playerConfig.AddUpgrade(upgrade);
-
-            currentUpgradeCost = Mathf.RoundToInt(currentUpgradeCost * costMultiplier);
-
-            SavePlayerData();
-        }
+        AddMoney(coin.coinAmount);
     }
 
-    private void LoadPlayerData()
+    private void OnDisable()
     {
-        if (PlayerPrefs.HasKey("PlayerConfig"))
-        {
-            string jsonData = PlayerPrefs.GetString("PlayerConfig");
-            playerConfig = JsonUtility.FromJson<PlayerConfig>(jsonData);
-        }
-        else
-        {
-            playerConfig = new PlayerConfig();
-            playerConfig.playerMoney = 500;
-        }
+        GameEvents.OnUpgrade -= OnUpgrade;
+        GameEvents.OnCoinEarned -= OnCoinEarned;
     }
 
-    private void SavePlayerData()
+    private void OnUpgrade(UpgradeConfig config, int arg2)
     {
-        string jsonData = JsonUtility.ToJson(playerConfig);
-        PlayerPrefs.SetString("PlayerConfig", jsonData);
+        SpentMoney(arg2);
     }
-    private void OnApplicationQuit()
+
+    public void SpentMoney(int money) 
     {
-        SavePlayerData();
+        playerConfig.playerMoney -= money;
+    }
+    public void AddMoney(int addAmount) 
+    {
+        playerConfig.playerMoney += addAmount;
     }
 }

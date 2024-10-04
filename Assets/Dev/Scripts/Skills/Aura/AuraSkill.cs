@@ -69,7 +69,6 @@ public class AuraSkill : MonoBehaviour
     private void UpdateAuraStats()
     {
         attackIntervalUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraRate);
-
         damageUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraDamage);
         radiusMultiplier = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraAttackRange);
         baseAttackInterval = baseAttackInterval * Mathf.Pow(intervalMultiplier, attackIntervalUpgradeLevel - 1);

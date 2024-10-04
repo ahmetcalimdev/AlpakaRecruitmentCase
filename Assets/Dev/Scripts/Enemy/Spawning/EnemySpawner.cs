@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
     private EnemyPool _enemyPool;
     private WaveConfig _waveConfig;
 
     private float _spawnInterval;
     private Coroutine _spawningCoroutine;
     private Transform _playerTransform;
+    private void Awake()
+    {
+        _enemyPool = GetComponentInChildren<EnemyPool>();
+    }
     private void SpawnEnemy(Vector3 spawnPosition)
     {
         Enemy spawnedEnemy = _enemyPool.Dequeue();

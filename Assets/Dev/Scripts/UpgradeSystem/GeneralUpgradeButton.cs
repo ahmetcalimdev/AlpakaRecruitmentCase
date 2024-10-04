@@ -23,7 +23,7 @@ public class GeneralUpgradeButton : MonoBehaviour
         btn.onClick.RemoveListener(upgradeUIManager.UpgradeRandom);  
     }
 
-    private void OnUpgrade(UpgradeConfig config)
+    private void OnUpgrade(UpgradeConfig config, int cost)
     {
         UpgradeManager.Instance.generalUpgradeConfig.upgradeLevel++;
         UpdatePriceTxt();
