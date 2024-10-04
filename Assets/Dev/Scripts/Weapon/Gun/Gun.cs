@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public float bulletPerSecond = 1f;
-    public float shootingRange;
+    private float baseBulletPerSecond = 3f;
+    private float bulletPerSecond;
     public float shootingSpeed;
     public float damagePerBullet;
 
@@ -18,11 +18,20 @@ public class Gun : MonoBehaviour
     private float timeSinceLastShot = 0f;
     private float shootInterval;
 
+    private int gunAttackRateUpgradeLevel = 1;
+    private int gunAttackSpeedUpgradeLevel = 1;
+    private float speedMultiplier = 1.1f;
+    private float bulletRateMultiplier = 1.05f;
+
     private void Start()
     {
-        shootInterval = 1f / bulletPerSecond;
+        UpdateGunStats();
     }
+    private void OnEnable()
+    {
 
+        UpdateGunStats();
+    }
     private void Update()
     {
         if (isShooting)
@@ -55,5 +64,15 @@ public class Gun : MonoBehaviour
         bullet.transform.position = bulletSpawnTransform.position;
         bullet.Init(damagePerBullet);
         bullet.ApplyForce(-bulletSpawnTransform.up, shootingSpeed);
+    }
+
+
+    private void UpdateGunStats()
+    {
+        gunAttackSpeedUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.GunAttackSpeed);
+        gunAttackRateUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.GunAttackRate);
+        shootingSpeed *= Mathf.Pow(speedMultiplier, gunAttackSpeedUpgradeLevel - 1);
+        bulletPerSecond = baseBulletPerSecond * Mathf.Pow(bulletRateMultiplier, gunAttackRateUpgradeLevel - 1);
+        shootInterval = 1f / bulletPerSecond;
     }
 }

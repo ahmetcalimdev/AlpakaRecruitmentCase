@@ -7,30 +7,73 @@ public class AuraSkill : MonoBehaviour
     private Transform _trigger;
     [SerializeField]
     private ParticleSystem _auraEffect;
+
     private float nextActionTime = 0.0f;
-    public float period = 1f;
-    public float damageAmount;
+    public float baseAttackInterval = 5f;
+    public float baseDamageAmount = 250f;
+    public float baseRadius = 1.5f;
+
+    public int attackIntervalUpgradeLevel = 1;
+    public int damageUpgradeLevel = 1;
+    public int radiusUpgradeLevel = 1;
+
+    public float intervalMultiplier = 0.9f;
+    public float damageMultiplier = 1.2f;
+    public float radiusMultiplier = 1.1f;
+
+    private void Start()
+    {
+        UpdateAuraStats();
+    }
 
     void Update()
     {
         if (Time.timeSinceLevelLoad > nextActionTime)
         {
-            nextActionTime += period;
+            nextActionTime += baseAttackInterval;
             UseSkill();
         }
     }
-    public void UseSkill() 
+
+    public void UseSkill()
     {
         _auraEffect.Play();
-        _trigger.DOScale(Vector3.one * 4f, .5f).OnComplete(()=> _trigger.transform.localScale = Vector3.zero);
+        _trigger.DOScale(Vector3.one * baseRadius, .5f).OnComplete(() => _trigger.transform.localScale = Vector3.zero);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Enemy>())
         {
-            Debug.Log("Damage from aura");
-            other.GetComponent<Enemy>().Damage(damageAmount);
+            other.GetComponent<Enemy>().Damage(baseDamageAmount);
         }
-        
+    }
+
+    public void UpgradeAuraSkill(UpgradeType upgradeType)
+    {
+        switch (upgradeType)
+        {
+            case UpgradeType.AuraRate:
+                attackIntervalUpgradeLevel++;
+                break;
+            case UpgradeType.AuraDamage:
+                damageUpgradeLevel++;
+                break;
+            case UpgradeType.AuraAttackRange:
+                radiusUpgradeLevel++;
+                break;
+        }
+        UpdateAuraStats();
+    }
+
+    private void UpdateAuraStats()
+    {
+        attackIntervalUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraRate);
+
+        damageUpgradeLevel = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraDamage);
+        radiusMultiplier = UpgradeManager.Instance.GetUpgradeLevel(UpgradeType.AuraAttackRange);
+        baseAttackInterval = baseAttackInterval * Mathf.Pow(intervalMultiplier, attackIntervalUpgradeLevel - 1);
+        baseDamageAmount = baseDamageAmount * Mathf.Pow(damageMultiplier, damageUpgradeLevel - 1);
+        baseRadius = baseRadius * Mathf.Pow(radiusMultiplier, radiusUpgradeLevel - 1);
     }
 }

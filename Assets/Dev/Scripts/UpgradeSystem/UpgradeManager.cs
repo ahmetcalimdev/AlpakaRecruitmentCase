@@ -5,7 +5,6 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance {  get; private set; }
-    public UpgradeUIManager UpgradeUIManager;
     public List<UpgradeConfig> Upgrades;
     public GeneralUpgradeConfig generalUpgradeConfig;
     private void Awake()

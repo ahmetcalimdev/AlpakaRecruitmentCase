@@ -1034,6 +1034,59 @@ MonoBehaviour:
   levels:
   - {fileID: 855036431}
   enemySpawner: {fileID: 643665718}
+--- !u!1 &1326622553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1326622555}
+  - component: {fileID: 1326622554}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1326622554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326622553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7603650729082498e8b93fe7937342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Upgrades:
+  - {fileID: 11400000, guid: 948759086802437459d9a91bcc93fc53, type: 2}
+  - {fileID: 11400000, guid: 0f843daad41b6da489c8577e5a2bd6b9, type: 2}
+  - {fileID: 11400000, guid: 6432278778efd684aa17872824c56e8e, type: 2}
+  - {fileID: 11400000, guid: d160e9818bda7644f8197f3bf17b302e, type: 2}
+  - {fileID: 11400000, guid: e76e0210cda352e47b1c9f2332a5e548, type: 2}
+  - {fileID: 11400000, guid: 1c7b2f3d83e561b45b488631e1751c8b, type: 2}
+  generalUpgradeConfig: {fileID: 11400000, guid: e091a04df3151a540bfc53b1932ff2c3,
+    type: 2}
+--- !u!4 &1326622555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326622553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 540, y: 799.09534, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1507598402
 GameObject:
   m_ObjectHideFlags: 0
