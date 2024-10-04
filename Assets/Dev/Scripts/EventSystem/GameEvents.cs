@@ -6,6 +6,7 @@ public static class GameEvents
     public static event Action<int, float> OnLevelStarted;
     public static event Action<Enemy> OnEnemyDied;
     public static event Action<float> OnTimeTick;
+    public static event Action<UpgradeConfig> OnUpgrade;
     public static void TriggerOnLevelStarted(int level, float duration) 
     {
         OnLevelStarted?.Invoke(level, duration);
@@ -18,5 +19,8 @@ public static class GameEvents
     {
         OnTimeTick?.Invoke(time);
     }
-
+    public static void TriggerOnUpgrade(UpgradeConfig upgradeConfig) 
+    {
+        OnUpgrade?.Invoke(upgradeConfig);
+    }
 }

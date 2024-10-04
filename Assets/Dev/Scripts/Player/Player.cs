@@ -57,7 +57,12 @@ public class Player : MonoBehaviour, IDamageable
         if (targets.Count > 0)
         {
             attackBehaviour.StartAttacking();
+            foreach (var item in targets)
+            {
+                item.EnableTargetDisplay(false);
+            }
             ClosestEnemy = targets.OrderBy(t => Vector3.Distance(t.transform.position, transform.position)).First();
+            ClosestEnemy.EnableTargetDisplay(true);
         }
         else
         {

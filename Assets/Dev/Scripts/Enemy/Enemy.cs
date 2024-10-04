@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     private ParticleSystem _hitParticle;
     [SerializeField]
     private ParticleSystem _deadParticle;
+    [SerializeField]
+    private GameObject _targetDisplay;
     
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
         CurrentHealth = MaxHealth;
         SetAggroStatus(false);
         SetAttackingDistance(false);
+        EnableTargetDisplay(false);
         StateMachine.Initialize(StateIdle);
     }
     private void Update()
@@ -88,6 +91,10 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, IDistanceChecka
     public void Stop()
     {
         NavMeshAgent.isStopped = true;
+    }
+    public void EnableTargetDisplay(bool enabled) 
+    {
+        _targetDisplay.SetActive(enabled);
     }
 
 }
